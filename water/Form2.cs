@@ -92,7 +92,7 @@ namespace water
         }
         int Row_count, time_count1, time_count2, main_state, recvice_flag, excel_count, flag_warn, time_count3,check_cnt;
 
-        string recvice_data;
+        string recvice_data;//接受字符串
 
         string[] tmp = new string[10];
 
@@ -115,11 +115,6 @@ namespace water
             {
                 timer1.Stop();
             }
-        }
-
-        private void uiSwitch1_ValueChanged(object sender, bool value)
-        {
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)//1秒钟的定时器
@@ -182,9 +177,6 @@ namespace water
                     uiLabel3.Text = "状态：等待功能打开...";
                     break;
             }
-
-
-
         }
 
         private void FPage1_Load(object sender, EventArgs e)
@@ -299,7 +291,7 @@ namespace water
                 {
                     str = uiDataGridView1[2, Row_count].Value.ToString();
 
-                    if (str.Length == 18)//如果字符大于4个
+                    if (str.Length == 16)//如果字符大于4个
                     {
                         uiDataGridView1.Rows[Row_count].ReadOnly = true;
                         //         if (time_count1 != 0)
@@ -490,7 +482,7 @@ namespace water
 
         public void recive_proess()//接受数据并处理
         {
-            string str1, str2;
+            string str1, str2,str3;
             int a;
             //当处于状态2时，才进行以下操作
             //if(main_state==2)
@@ -502,7 +494,7 @@ namespace water
                     a = 0;
                     str1 = "";
                     str2 = "";
-
+                    str3 = "";
                     try
                     {
                         string[] strArray = recvice_data.Split(new char[2] { '[', ']' });
@@ -521,6 +513,7 @@ namespace water
                             string[] Array = str1.Split(',');
                             str1 = Array[0];
                             str2 = Array[1];
+                            str3 = Array[2];
                         }
 
                     }
@@ -544,7 +537,7 @@ namespace water
                             uiDataGridView1[4, Row_count].Value = "fail";
                             uiDataGridView1.Rows[Row_count].DefaultCellStyle.BackColor = Color.IndianRed;
                         }
-                        uiDataGridView1[4, Row_count].Tag = str2;
+                        uiDataGridView1[4, Row_count].Tag = str2+","+ str3;
                         time_count1 = time_out;
                         main_state = 3;//数据保存
                                        //直接弹错误框
